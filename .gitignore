@@ -57,5 +57,7 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
+
+# User settings files
 .vsconfig
 UserSettings/Search.settings

@@ -10,13 +10,26 @@ public class movePlayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    //FixedUpdate is called every physics update, anything involving physics should go in here
+    void FixedUpdate()
     {
-        playerRB.MovePosition(transform.position + new Vector3(0, Input.GetAxisRaw("Vertical") * speed * Time.deltaTime) + new Vector3(Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime, 0));
+        //Gets the inputs from the player and stores them in floats (they should be -1, 0, or 1)
+        float vertical = Input.GetAxisRaw("Vertical");
+        float horizontal = Input.GetAxisRaw("Horizontal");
+
+        //only move player if they are actually pressing inputs
+        if (vertical != 0 || horizontal != 0)
+        {
+            //normalize the vector so that they player doesn't move faster diagonally
+            Vector2 moveDirection = new Vector2(horizontal, vertical).normalized;
+
+            //Applies movement to rigid body (multiply by fixed delta time so that movement speed isn't affected if we change the physics frame rate)
+            playerRB.MovePosition(playerRB.position + (moveDirection * speed * Time.fixedDeltaTime));
+
+        }
     }
 
 

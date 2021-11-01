@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class playerInventoryUI : UI
+public class PlayerInventoryUI : UI
 {
     [SerializeField] GameObject itemBox;
 
@@ -12,6 +12,7 @@ public class playerInventoryUI : UI
     Vector2 boxSize;
     [SerializeField] Vector2 marginSize = new Vector2(20, 20);
 
+    //Stores all the items in the players inventory
     List<GameObject> items = new List<GameObject>();
 
     //temp object for testing
@@ -82,16 +83,16 @@ public class playerInventoryUI : UI
     {
         GameObject newItem = Instantiate(itemBox); //Creates a new item based on the item box prefab
         newItem.transform.SetParent(container.transform, false); //Sets the parent to the container
-        newItem.tag = item.tag;
+        newItem.GetComponent<InventoryItem>().itemName = item.GetComponent<CollectableItem>().itemName;
         newItem.transform.GetChild(0).GetComponent<Image>().sprite = item.GetComponent<SpriteRenderer>().sprite; //sets the sprite of the emtpy image to the sprite of the item we are adding
         newItem.transform.localScale = boxScale; //sets the size of the box to match box size
         items.Add(newItem); //Add item to list
         UpdateInventoryUI(); //Update ui
     }
 
-    public void RemoveItem(string tag)
+    public void RemoveItem(string name)
     {
-        int index = IndexOfItem(tag);
+        int index = IndexOfItem(name);
         Destroy(items[index]); //Destroys the gameobject
 
         //Debug.Log("Item removed: " + items[index]);
@@ -100,11 +101,11 @@ public class playerInventoryUI : UI
         UpdateInventoryUI(); //update Ui
     }
 
-    public bool ContainsItem(string tag)
+    public bool ContainsItem(string name)
     {
         foreach (GameObject item in items)
         {
-            if (item.CompareTag(tag))
+            if (item.GetComponent<InventoryItem>().itemName == name)
             {
                 return true;
             }
@@ -112,16 +113,16 @@ public class playerInventoryUI : UI
         return false;
     }
 
-    public int IndexOfItem(string tag)
+    public int IndexOfItem(string name)
     {
         for (int i = 0; i < items.Count; i++)
         {
-            if (items[i].CompareTag(tag))
+            if (items[i].GetComponent<InventoryItem>().name == name)
             {
                 return i;
             }
         }
-        Debug.LogError("No item with tag " + tag);
+        Debug.LogError("No item with tag " + name);
         return -1;
     }
 

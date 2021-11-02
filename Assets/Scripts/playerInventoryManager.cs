@@ -5,51 +5,47 @@ using UnityEngine;
 public class PlayerInventoryManager : MonoBehaviour
 {
     [SerializeField] GameObject playerInventoryUI; //reference to the inventory UI, so the player can send game objects that they collect to the inventory display
-
-    [SerializeField] float bloomIntensity; // how much the closest object should glow
-    [SerializeField] float pickUpDistance; //how close the player needs to be to objects to pick them up
-    private LayerMask player;
-    CircleCollider2D pickUpTrigger; //trigger collider that can be used to detect objects within a certain radius
-
-    float closestObjectDistance;
-    GameObject closestObject = null, prevObj = null;
+    [SerializeField] float bloomIntensity; //how much the closest object should glow
+    [SerializeField] public float pickUpDistance = 5; //how close the player needs to be to objects to pick them up
+    public static float closestObjectDistance;
+    public static GameObject closestObject = null;
+    GameObject prevObj = null;
 
     // Start is called before the first frame update
     void Start()
     {
-        player = LayerMask.GetMask("Player");
-        pickUpTrigger = GetComponent<CircleCollider2D>();
-        pickUpTrigger.radius = pickUpDistance;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Temp
-        pickUpTrigger.radius = pickUpDistance;
     }
 
     void FixedUpdate()
     {
         if(prevObj != null)
         {
-            prevObj.GetComponent<CollectableItem>().SetIntensity(1);
+            prevObj.GetComponent<CollectableItem>().SetIntesity(1);
         }
 
         //Do something with the closest object
         if (closestObject != null)
         {
-            closestObject.GetComponent<CollectableItem>().SetIntensity(bloomIntensity);
+            closestObject.GetComponent<CollectableItem>().SetIntesity(bloomIntensity);
         }
 
         //Resets variables at the end of fixed update before onTrigger functions are called
-        closestObjectDistance = pickUpDistance;
         prevObj = closestObject;
+
+        closestObjectDistance = pickUpDistance;
         closestObject = null;
     }
 
+    /*
     void OnTriggerEnter2D(Collider2D other)
     {
+
         //Checks if the object is collectable and closer than the current closest object
         if (other.CompareTag("Collectable") && Vector3.Distance(transform.position, other.transform.position) < closestObjectDistance)
         {
@@ -87,4 +83,5 @@ public class PlayerInventoryManager : MonoBehaviour
             }
         }
     }
+    */
 }

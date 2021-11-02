@@ -44,7 +44,7 @@ public class PlayerInventoryUI : UI
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            RemoveItem("test");
+            RemoveItem("Test");
         }
     }
 
@@ -117,12 +117,12 @@ public class PlayerInventoryUI : UI
     {
         for (int i = 0; i < items.Count; i++)
         {
-            if (items[i].GetComponent<InventoryItem>().name == name)
+            if (items[i].GetComponent<InventoryItem>().itemName == name)
             {
                 return i;
             }
         }
-        Debug.LogError("No item with tag " + name);
+        Debug.LogError("No item with name: " + name);
         return -1;
     }
 

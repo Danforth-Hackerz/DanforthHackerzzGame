@@ -16,7 +16,8 @@ public class CollectableItem : MonoBehaviour
         trigger = GetComponent<CircleCollider2D>();
 
         //Warning: This assumes that the collection distance of the player never changes, so if that is a feature added into the game make sure to change this
-        pickUpDistance = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventoryManager>().pickUpDistance; //finds the player and gets the pickUpDistance
+        //finds the player and gets the pickUpDistance
+        pickUpDistance = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventoryManager>().pickUpDistance * (1 / Mathf.Max(transform.lossyScale.x, transform.lossyScale.y)); 
         trigger.radius = pickUpDistance;
 
         _renderer = GetComponent<SpriteRenderer>();

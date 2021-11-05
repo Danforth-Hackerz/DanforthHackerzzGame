@@ -6,7 +6,7 @@ public class PlayerInventoryManager : MonoBehaviour
 {
     [SerializeField] GameObject playerInventoryUI; //reference to the inventory UI, so the player can send game objects that they collect to the inventory display
     [SerializeField] float bloomIntensity; //how much the closest object should glow
-    [SerializeField] float bloomTransitionTime; //how long the object glow animation should take
+    [SerializeField] public float bloomTransitionSpeed; //how long the object glow animation should take (Intensity change per second)
     [SerializeField] public float pickUpDistance = 5; //how close the player needs to be to objects to pick them up
     public static float closestObjectDistance;
     public static GameObject closestObject = null;
@@ -28,13 +28,18 @@ public class PlayerInventoryManager : MonoBehaviour
         if (prevObj != closestObject && prevObj != null)
         {
             //Animates the bloom if the previous closest object if it changed
-            StartCoroutine(Animations.TransitionBloom(prevObj.GetComponent<CollectableItem>(), bloomIntensity, 1, bloomTransitionTime));
+            //StartCoroutine(Animations.TransitionBloom(prevObj.GetComponent<CollectableItem>(), bloomIntensity, 1, bloomTransitionTime));
+            prevObj.GetComponent<CollectableItem>().SetTargetIntensity(1);
+            Debug.Log("Reset Glow");
+
         }
 
         if (closestObject != prevObj && closestObject != null)
         {
             //Animates the bloom on the closest object if it changed
-            StartCoroutine(Animations.TransitionBloom(closestObject.GetComponent<CollectableItem>(), 1, bloomIntensity, bloomTransitionTime));
+            //StartCoroutine(Animations.TransitionBloom(closestObject.GetComponent<CollectableItem>(), 1, bloomIntensity, bloomTransitionTime));
+            closestObject.GetComponent<CollectableItem>().SetTargetIntensity(bloomIntensity);
+            Debug.Log("Glow");
         }
 
         //Resets variables at the end of fixed update before onTrigger functions are called

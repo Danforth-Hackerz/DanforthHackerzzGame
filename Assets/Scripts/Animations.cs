@@ -4,6 +4,7 @@ using UnityEngine;
 //Static class to store methods for multiple animations
 public static class Animations
 {
+    /*
     //Method to transition the bloom of a collectable item
     public static IEnumerator TransitionBloom(CollectableItem item, float startIntensity, float intensity, float time)
     {
@@ -15,13 +16,14 @@ public static class Animations
         {
             //Updates the intensity
             startIntensity += intensityDiffPerUpdate;
-            item.SetIntesity(startIntensity);
+            item.SetIntensity(startIntensity);
 
             //Waits the fixed time update
             timeCount += Time.fixedDeltaTime;
             yield return new WaitForSeconds(Time.fixedDeltaTime);
         }
 
-        item.SetIntesity(intensity); //Sets the intensity if it was slightly off in the loop
+        item.SetIntensity(intensity); //Sets the intensity if it was slightly off in the loop
     }
+    */
 }

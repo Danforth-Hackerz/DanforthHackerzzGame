@@ -6,6 +6,7 @@ public class PlayerInventoryManager : MonoBehaviour
 {
     [SerializeField] GameObject playerInventoryUI; //reference to the inventory UI, so the player can send game objects that they collect to the inventory display
     [SerializeField] float bloomIntensity; //how much the closest object should glow
+    [SerializeField] float bloomTransitionTime; //how long the object glow animation should take
     [SerializeField] public float pickUpDistance = 5; //how close the player needs to be to objects to pick them up
     public static float closestObjectDistance;
     public static GameObject closestObject = null;
@@ -24,20 +25,20 @@ public class PlayerInventoryManager : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(prevObj != null)
+        if (prevObj != closestObject && prevObj != null)
         {
-            prevObj.GetComponent<CollectableItem>().SetIntesity(1);
+            //Animates the bloom if the previous closest object if it changed
+            StartCoroutine(Animations.TransitionBloom(prevObj.GetComponent<CollectableItem>(), bloomIntensity, 1, bloomTransitionTime));
         }
 
-        //Do something with the closest object
-        if (closestObject != null)
+        if (closestObject != prevObj && closestObject != null)
         {
-            closestObject.GetComponent<CollectableItem>().SetIntesity(bloomIntensity);
+            //Animates the bloom on the closest object if it changed
+            StartCoroutine(Animations.TransitionBloom(closestObject.GetComponent<CollectableItem>(), 1, bloomIntensity, bloomTransitionTime));
         }
 
         //Resets variables at the end of fixed update before onTrigger functions are called
         prevObj = closestObject;
-
         closestObjectDistance = pickUpDistance;
         closestObject = null;
     }

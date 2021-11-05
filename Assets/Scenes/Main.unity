@@ -632,6 +632,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInventoryUI: {fileID: 0}
   bloomIntensity: 1.6
+  bloomTransitionTime: 0.5
   pickUpDistance: 5
 --- !u!1001 &902136119
 PrefabInstance:

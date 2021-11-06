@@ -10,6 +10,10 @@ public class CollectableItem : MonoBehaviour
     CircleCollider2D trigger;
     float pickUpDistance;
 
+    float bloomTransitionSpeed; //(intensity change per second)
+    float targetIntensity = 1;
+    [SerializeField] float intensityMultiplier = 1f;
+    //
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +21,9 @@ public class CollectableItem : MonoBehaviour
 
         //Warning: This assumes that the collection distance of the player never changes, so if that is a feature added into the game make sure to change this
         //finds the player and gets the pickUpDistance
-        pickUpDistance = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventoryManager>().pickUpDistance * (1 / Mathf.Max(transform.lossyScale.x, transform.lossyScale.y)); 
+        pickUpDistance = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventoryManager>().pickUpDistance * (1 / Mathf.Max(transform.lossyScale.x, transform.lossyScale.y));
+        bloomTransitionSpeed = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventoryManager>().bloomTransitionSpeed;
+       
         trigger.radius = pickUpDistance;
 
         _renderer = GetComponent<SpriteRenderer>();
@@ -27,12 +33,30 @@ public class CollectableItem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        float intensity = _renderer.material.color.r;
+        if (intensity != targetIntensity)
+        {
+            float sign = Mathf.Sign(targetIntensity - intensity);
+            _renderer.material.color += Color.white * sign * bloomTransitionSpeed * intensityMultiplier * Time.deltaTime;
+            intensity = _renderer.material.color.r;
+            
+            if ((sign > 0 && intensity > targetIntensity) || (sign < 0 && intensity < targetIntensity))
+            {
+                _renderer.material.color = Color.white * targetIntensity;
+            }
+        }
     }
 
-    public void SetIntesity(float intensity)
+    public void SetTargetIntensity(float intensity)
     {
-        _renderer.material.SetColor("_Color", Color.white * intensity);
+        if (intensity != 1)
+        {
+            targetIntensity = intensity * intensityMultiplier;
+        }
+        else
+        {
+            targetIntensity = 1;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)

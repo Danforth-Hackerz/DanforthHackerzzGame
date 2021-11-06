@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CollectableItem : MonoBehaviour
 {
+    public GameObject prefab;
+
     public string itemName;
     LayerMask ignoreCollectable; //layerMask is needed so raycast does not immediately collide with the item it's originating from
     SpriteRenderer _renderer;

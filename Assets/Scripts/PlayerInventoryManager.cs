@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerInventoryManager : MonoBehaviour
 {
-    [SerializeField] GameObject playerInventoryUI; //reference to the inventory UI, so the player can send game objects that they collect to the inventory display
+    [SerializeField] PlayerInventoryUI playerInventoryUI; //reference to the inventory UI, so the player can send game objects that they collect to the inventory display
     [SerializeField] float bloomIntensity; //how much the closest object should glow
     [SerializeField] public float bloomTransitionSpeed; //how long the object glow animation should take (Intensity change per second)
     [SerializeField] public float pickUpDistance = 5; //how close the player needs to be to objects to pick them up
@@ -12,15 +12,33 @@ public class PlayerInventoryManager : MonoBehaviour
     public static GameObject closestObject = null;
     GameObject prevObj = null;
 
+    [SerializeField] private int maxItems; //Stores the max amount of items the user can have in their inventory
+    private List<CollectableItem> items; //Stores all the items in the players inventory
+
     // Start is called before the first frame update
     void Start()
     {
-
+        //Initializes items
+        items = new List<CollectableItem>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Picks up the closest item if the user presses E
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            PickUpItem();
+        }
+
+        //Drops the item if you hit the associated button
+        for(int i = 0; i < maxItems; i++)
+        {
+            if(Input.GetKeyDown((KeyCode)(49 + i)))
+            {
+                RemoveItem(i);
+            }
+        }
     }
 
     void FixedUpdate()
@@ -46,6 +64,41 @@ public class PlayerInventoryManager : MonoBehaviour
         prevObj = closestObject;
         closestObjectDistance = pickUpDistance;
         closestObject = null;
+    }
+
+    //Method called to pick up an item
+    void PickUpItem() 
+    { 
+        //Returns if there is no object to pick up or the users inventory is already full
+        if(closestObject == null || items.Count == maxItems)
+        {
+            return;
+        }
+
+        //Adds the item to the inventory list
+        items.Add(closestObject.GetComponent<CollectableItem>());
+
+        //Adds the item to the UI
+        playerInventoryUI.AddItem(closestObject.gameObject);
+
+        //Destroys the gameobject
+        closestObject.SetActive(false);
+    }
+
+    void RemoveItem(int index)
+    {
+        //Returns if the player tries to drop an item they don't have
+        if(index >= items.Count)
+        {
+            return;
+        }
+
+        items[index].gameObject.transform.position = transform.position;
+        items[index].gameObject.SetActive(true);
+
+        playerInventoryUI.RemoveItem(index);
+
+        items.RemoveAt(index);
     }
 
     /*

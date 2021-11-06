@@ -97,7 +97,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f3bee795c2c4754691e3a468c67ffea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefab: {fileID: 533998596838118933}
   itemName: 
+  intensityMultiplier: 1
 --- !u!58 &4985678808179873622
 CircleCollider2D:
   m_ObjectHideFlags: 0

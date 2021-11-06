@@ -680,10 +680,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 693cc36da1d02cb41bee40bd13913010, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInventoryUI: {fileID: 0}
+  playerInventoryUI: {fileID: 1559333440}
   bloomIntensity: 1.6
   bloomTransitionSpeed: 1
   pickUpDistance: 5
+  maxItems: 4
 --- !u!1001 &902136119
 PrefabInstance:
   m_ObjectHideFlags: 0

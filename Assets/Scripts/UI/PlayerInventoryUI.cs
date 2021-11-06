@@ -12,8 +12,7 @@ public class PlayerInventoryUI : UI
     Vector2 boxSize;
     [SerializeField] Vector2 marginSize = new Vector2(20, 20);
 
-    //Stores all the items in the players inventory
-    List<GameObject> items = new List<GameObject>();
+    private List<GameObject> itemBoxes; //Stores the items boxes in the UI
 
     //temp object for testing
     [SerializeField] GameObject test;
@@ -22,6 +21,7 @@ public class PlayerInventoryUI : UI
     void Start()
     {
         boxSize = new Vector2(100, 100) * boxScale;
+        itemBoxes = new List<GameObject>();
     }
 
     // Update is called once per frame
@@ -29,52 +29,52 @@ public class PlayerInventoryUI : UI
     {
         //temp testing so that you can modify ui while running the game 
         //Expensive and unneccesary so remove once no longer needed
-        boxSize = new Vector2(100, 100) * boxScale;
-        UpdateInventoryUI();
-        foreach (GameObject item in items)
-        {
-            item.transform.localScale = boxScale; //sets the size of the box to match box size variable
-        }
+        //boxSize = new Vector2(100, 100) * boxScale;
+        //UpdateInventoryUI();
+        //foreach (GameObject item in items)
+        //{
+        //    item.transform.localScale = boxScale; //sets the size of the box to match box size variable
+        //}
 
-        //Test to make sure system works
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            AddItem(test);
-        }
+        ////Test to make sure system works
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    AddItem(test);
+        //}
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            RemoveItem("Test");
-        }
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    RemoveItem("Test");
+        //}
     }
 
     //Updates the positions of the inventory items based on the items list
     //Not implementing vertical shifting yet (or maybe lower the size of the elements if there are too many)
     public void UpdateInventoryUI()
     {
-        if (items.Count == 0)
+        if (itemBoxes.Count == 0)
         {
             return;
         }
 
         float currentItemX;
-        if (items.Count % 2 == 0)
+        if (itemBoxes.Count % 2 == 0)
         {
             //If even number of objects
             //Calculate the x of the first item
-            currentItemX = -(((items.Count / 2) - 0.5f) * (boxSize.x + marginSize.x));
+            currentItemX = -(((itemBoxes.Count / 2) - 0.5f) * (boxSize.x + marginSize.x));
         }
         else
         {
             //If odd number of objects
             //Calculate the x of the first item
-            currentItemX = -(items.Count / 2 * (marginSize.x + boxSize.x));
+            currentItemX = -(itemBoxes.Count / 2 * (marginSize.x + boxSize.x));
         }
         //Debug.Log(currentItemX);
 
-        for (int i = 0; i < items.Count; i++)
+        for (int i = 0; i < itemBoxes.Count; i++)
         {
-            items[i].transform.localPosition = new Vector3(currentItemX, 0, 0);
+            itemBoxes[i].transform.localPosition = new Vector3(currentItemX, 0, 0);
             currentItemX += boxSize.x + marginSize.x;
         }
     }
@@ -85,25 +85,25 @@ public class PlayerInventoryUI : UI
         newItem.transform.SetParent(container.transform, false); //Sets the parent to the container
         newItem.GetComponent<InventoryItem>().itemName = item.GetComponent<CollectableItem>().itemName;
         newItem.transform.GetChild(0).GetComponent<Image>().sprite = item.GetComponent<SpriteRenderer>().sprite; //sets the sprite of the emtpy image to the sprite of the item we are adding
+        newItem.transform.GetChild(0).GetComponent<Image>().color = item.GetComponent<SpriteRenderer>().color; //sets the sprite of the emtpy image to the sprite of the item we are adding
         newItem.transform.localScale = boxScale; //sets the size of the box to match box size
-        items.Add(newItem); //Add item to list
+        itemBoxes.Add(newItem); //Add item to list
         UpdateInventoryUI(); //Update ui
     }
 
-    public void RemoveItem(string name)
+    public void RemoveItem(int index)
     {
-        int index = IndexOfItem(name);
-        Destroy(items[index]); //Destroys the gameobject
+        Destroy(itemBoxes[index]); //Destroys the gameobject
 
         //Debug.Log("Item removed: " + items[index]);
 
-        items.RemoveAt(index); //Removes reference to the object (It's still in the list)
+        itemBoxes.RemoveAt(index); //Removes reference to the object (It's still in the list)
         UpdateInventoryUI(); //update Ui
     }
 
     public bool ContainsItem(string name)
     {
-        foreach (GameObject item in items)
+        foreach (GameObject item in itemBoxes)
         {
             if (item.GetComponent<InventoryItem>().itemName == name)
             {
@@ -115,9 +115,9 @@ public class PlayerInventoryUI : UI
 
     public int IndexOfItem(string name)
     {
-        for (int i = 0; i < items.Count; i++)
+        for (int i = 0; i < itemBoxes.Count; i++)
         {
-            if (items[i].GetComponent<InventoryItem>().itemName == name)
+            if (itemBoxes[i].GetComponent<InventoryItem>().itemName == name)
             {
                 return i;
             }

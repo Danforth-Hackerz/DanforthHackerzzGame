@@ -94,8 +94,6 @@ public class CollectableItem : MonoBehaviour
 
             Debug.DrawRay(transform.position, direction * pickUpDistance);
 
-            //Debug.Log(hit.collider.gameObject.name);
-
             //If you hit the player
             if (hit.transform.CompareTag("Player"))
             {

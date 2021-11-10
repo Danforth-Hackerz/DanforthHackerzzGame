@@ -93,7 +93,7 @@ public class PlayerInventoryManager : MonoBehaviour
             return;
         }
 
-        items[index].gameObject.transform.position = transform.position;
+        items[index].gameObject.transform.position = transform.position - new Vector3(0, 1);
         items[index].gameObject.SetActive(true);
 
         playerInventoryUI.RemoveItem(index);

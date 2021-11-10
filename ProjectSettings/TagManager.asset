@@ -17,9 +17,9 @@ TagManager:
   - 
   - Player
   - Collectable
-  - 
-  - 
-  - 
+  - Player-Body
+  - Player-Feet
+  - Walls
   - 
   - 
   - 

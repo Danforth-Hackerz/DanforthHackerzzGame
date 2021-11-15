@@ -48,7 +48,7 @@ public class PlayerInventoryManager : MonoBehaviour
             //Animates the bloom if the previous closest object if it changed
             //StartCoroutine(Animations.TransitionBloom(prevObj.GetComponent<CollectableItem>(), bloomIntensity, 1, bloomTransitionTime));
             prevObj.GetComponent<CollectableItem>().SetTargetIntensity(1);
-            Debug.Log("Reset Glow");
+            //Debug.Log("Reset Glow");
 
         }
 
@@ -57,7 +57,7 @@ public class PlayerInventoryManager : MonoBehaviour
             //Animates the bloom on the closest object if it changed
             //StartCoroutine(Animations.TransitionBloom(closestObject.GetComponent<CollectableItem>(), 1, bloomIntensity, bloomTransitionTime));
             closestObject.GetComponent<CollectableItem>().SetTargetIntensity(bloomIntensity);
-            Debug.Log("Glow");
+            //Debug.Log("Glow");
         }
 
         //Resets variables at the end of fixed update before onTrigger functions are called
@@ -68,20 +68,25 @@ public class PlayerInventoryManager : MonoBehaviour
 
     //Method called to pick up an item
     void PickUpItem() 
-    { 
+    {
         //Returns if there is no object to pick up or the users inventory is already full
-        if(closestObject == null || items.Count == maxItems)
+        if (closestObject == null)
         {
             return;
         }
+        else if (items.Count == maxItems)
+        {
+            Debug.Log("Your inventory is full");
+            return;
+        }
 
-        //Adds the item to the inventory list
+        //Adds the item to the inventory list (of the actual gameObjects which become disabled)
         items.Add(closestObject.GetComponent<CollectableItem>());
 
         //Adds the item to the UI
-        playerInventoryUI.AddItem(closestObject.gameObject);
+        playerInventoryUI.AddItem(closestObject);
 
-        //Destroys the gameobject
+        //Disables the gameobject
         closestObject.SetActive(false);
     }
 

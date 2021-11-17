@@ -94,7 +94,7 @@ public class InventoryItem : MonoBehaviour
     public void SetTargetPosition(Vector3 position)
     {
         targetPosition = position;
-        Debug.Log("Set Position " + position);
+        //Debug.Log("Set Position " + position);
     }
 
     public void ResetTargets()

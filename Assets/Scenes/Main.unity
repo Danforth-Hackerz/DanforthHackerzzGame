@@ -664,6 +664,10 @@ PrefabInstance:
       propertyPath: itemName
       value: Key 2
       objectReference: {fileID: 0}
+    - target: {fileID: 204237628585060298, guid: 75b1332aec6e65c4798298efcada6493, type: 3}
+      propertyPath: intensityMultiplier
+      value: 1.2
+      objectReference: {fileID: 0}
     - target: {fileID: 533998596838118933, guid: 75b1332aec6e65c4798298efcada6493, type: 3}
       propertyPath: m_Name
       value: Collectable Item (3)
@@ -972,7 +976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c19695c38eafa224b81333f6735e93ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 8
 --- !u!50 &773497220
 Rigidbody2D:
   serializedVersion: 4
@@ -2396,11 +2400,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75b1332aec6e65c4798298efcada6493, type: 3}
---- !u!1 &1133362542 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 533998596838118933, guid: 75b1332aec6e65c4798298efcada6493, type: 3}
-  m_PrefabInstance: {fileID: 1933271610}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1257470095
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2906,9 +2905,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   container: {fileID: 1741623778}
   itemBox: {fileID: 276955326426301275, guid: b92d936c9e7d67b4e996a114e3f09c07, type: 3}
-  boxScale: {x: 1, y: 1}
+  boxScale: 1
   marginSize: {x: 20, y: 20}
-  test: {fileID: 1133362542}
+  translateSpeed: 600
+  scaleSpeed: 10
 --- !u!1 &1741623778
 GameObject:
   m_ObjectHideFlags: 0

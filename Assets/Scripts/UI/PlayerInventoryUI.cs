@@ -8,14 +8,22 @@ public class PlayerInventoryUI : UI
     [SerializeField] GameObject itemBox;
 
     //Set to serialize field temporarily so that you can mess around with different sizes (remove once sizes are decided)
-    [SerializeField] Vector2 boxScale = new Vector2(1, 1);
+    [SerializeField] float boxScale = 1;
     Vector2 boxSize;
     [SerializeField] Vector2 marginSize = new Vector2(20, 20);
+    public float translateSpeed = 1;
+    public float scaleSpeed = 1;
+
+    //Ratio of translateSpeed : scale speed should be (amount the box needs to move : 1), since the box scales in 1 second exactly
+    //(60 : 1 currently)
+    //(boxSize.x + marginSize.x) / 2 : 1
+    //or (boxScale * 100 + marginSize.x) / 2 : 1
+    //That is how much the box moves when 1 object is added
 
     private List<GameObject> itemBoxes; //Stores the items boxes in the UI
 
     //temp object for testing
-    [SerializeField] GameObject test;
+    //[SerializeField] GameObject test;
 
     // Start is called before the first frame update
     void Start()
@@ -74,7 +82,9 @@ public class PlayerInventoryUI : UI
 
         for (int i = 0; i < itemBoxes.Count; i++)
         {
-            itemBoxes[i].transform.localPosition = new Vector3(currentItemX, 0, 0);
+            //itemBoxes[i].transform.localPosition = new Vector3(currentItemX, 0, 0);
+            itemBoxes[i].GetComponent<InventoryItem>().SetTargetPosition(new Vector3(currentItemX, 0, 0));
+            //Debug.Log("Set position" + i);
             currentItemX += boxSize.x + marginSize.x;
         }
     }
@@ -85,16 +95,19 @@ public class PlayerInventoryUI : UI
         newItem.transform.SetParent(container.transform, false); //Sets the parent to the container
         newItem.GetComponent<InventoryItem>().itemName = item.GetComponent<CollectableItem>().itemName;
         newItem.transform.GetChild(0).GetComponent<Image>().sprite = item.GetComponent<SpriteRenderer>().sprite; //sets the sprite of the emtpy image to the sprite of the item we are adding
-        newItem.transform.GetChild(0).GetComponent<Image>().color = item.GetComponent<SpriteRenderer>().color; //sets the sprite of the emtpy image to the sprite of the item we are adding
-        newItem.transform.localScale = boxScale; //sets the size of the box to match box size
+        newItem.transform.GetChild(0).GetComponent<Image>().color = item.GetComponent<SpriteRenderer>().color; //sets the sprite colour of the emtpy image to the colour of the item we are adding
+
+        newItem.transform.localScale = new Vector3(0, 0, 1); //sets the scale to 0
+        newItem.transform.GetComponent<InventoryItem>().SetTargetScale(boxScale, false); //sets the target scale of the box to match box size (for growing animation)
+
         itemBoxes.Add(newItem); //Add item to list
         UpdateInventoryUI(); //Update ui
     }
 
     public void RemoveItem(int index)
     {
-        Destroy(itemBoxes[index]); //Destroys the gameobject
-
+        //Destroy(itemBoxes[index]); //Destroys the gameobject
+        itemBoxes[index].GetComponent<InventoryItem>().SetTargetScale(0, true);
         //Debug.Log("Item removed: " + items[index]);
 
         itemBoxes.RemoveAt(index); //Removes reference to the object (It's still in the list)

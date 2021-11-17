@@ -7,45 +7,57 @@ public class InventoryItem : MonoBehaviour
     public string itemName;
     bool destroyOnTargetScale = false;
     Vector3 targetPosition;
-    Vector3 originalScale;
+    Vector3 originalScale = Vector3.one; //Original scale should only be changed to change ratios between width and height (I think)
     float targetScale;
     float translateSpeed;
     float scaleSpeed;
 
+    //For Debug Testing
+    //double startTime;
+
     // Start is called before the first frame update
     void Start()
     {
-        //gets animation speeds from player inventory manager script
+        //Gets animation speeds from player inventory manager script
         PlayerInventoryUI inventoryScript = GameObject.Find("Player Inventory").GetComponent<PlayerInventoryUI>();
         translateSpeed = inventoryScript.translateSpeed;
         scaleSpeed = inventoryScript.scaleSpeed;
 
-        originalScale = transform.localScale;
-        ResetTargets();
+        //Void Start is consistently called after target position is set in the updateInventory method
+        //You can just set the position to the target position one time when the object is instantiated
+        //This is probably bad practice and should be changed to a better system
+        //Fixes an issue where the object always starts in the center and moves to it's target position
+        transform.localPosition = targetPosition;
+        
+        
+        //originalScale = transform.localScale;
+        //ResetTargets();
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        //adjust position if neccessary
-        if (transform.position != targetPosition)
+        //Adjust position if neccessary
+        if (transform.localPosition != targetPosition)
         {
-            if (Vector3.Distance(transform.position, targetPosition) <= translateSpeed * Time.deltaTime)
+            if (Vector2.Distance(transform.localPosition, targetPosition) <= translateSpeed * Time.deltaTime)
             {
-                transform.position = targetPosition;
+                transform.localPosition = targetPosition;
             }
             else
             {
-                Vector3 direction = ((Vector2)(targetPosition - transform.position)).normalized;
-                transform.position += direction * translateSpeed * Time.deltaTime;
+                Vector3 direction = ((Vector2)(targetPosition - transform.localPosition)).normalized;
+                transform.localPosition += translateSpeed * Time.deltaTime * direction;
             }
         }
 
-        //adjusts scale if neccessary
-        //kind of scuffed (plus the destroyOnTargetScale makes this break when changing scale while changing down to 0(though this shouldn't be done based on current uses))
+        //Adjusts scale if neccessary
         //I think that a coroutine might be better (though this is better if you pick up an item then immediately drop it)
         if (transform.localScale.x != targetScale * originalScale.x)
         {
+            //Debug.Log("Time: " + (Time.realtimeSinceStartup - startTime));
             if (Mathf.Abs((targetScale * originalScale.x) - transform.localScale.x) <= scaleSpeed * originalScale.x * Time.deltaTime)
             {
                 if (destroyOnTargetScale)
@@ -53,14 +65,20 @@ public class InventoryItem : MonoBehaviour
                     Destroy(gameObject);
                 }
 
-                //weird math is to keep the z scale 1 always
+                //Weird math is to keep the z scale 1 always (Casting to a vector2, then vector3, removes the last digit, then add 0,0,1 to set last digit to 1)
                 transform.localScale = (Vector3)(targetScale * (Vector2)originalScale) + Vector3.forward;
             }
             else
             {
                 //converts to vector2 then to vector3 do discard the z amount
-                transform.localScale += (Vector3)(Mathf.Sign(targetScale - transform.localScale.x / originalScale.x)* scaleSpeed * Time.deltaTime * (Vector2)originalScale);
+                transform.localScale += (Vector3)(Mathf.Sign(targetScale - transform.localScale.x / originalScale.x) * scaleSpeed * Time.deltaTime * (Vector2)originalScale);
             }
+        }
+
+        //Testing
+        if (transform.localScale.x != targetScale * originalScale.x && transform.localPosition != targetPosition)
+        {
+
         }
     }
 
@@ -68,16 +86,20 @@ public class InventoryItem : MonoBehaviour
     {
         targetScale = scaleMultiplier;
         destroyOnTargetScale = destroy;
+
+        //Temporary testing
+        //startTime = Time.realtimeSinceStartup;
     }
 
     public void SetTargetPosition(Vector3 position)
     {
         targetPosition = position;
+        Debug.Log("Set Position " + position);
     }
 
     public void ResetTargets()
     {
-        targetPosition = transform.position;
+        targetPosition = transform.localPosition;
         targetScale = transform.localScale.x / originalScale.x;
     }
 }

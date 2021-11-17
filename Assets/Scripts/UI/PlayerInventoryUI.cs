@@ -14,6 +14,12 @@ public class PlayerInventoryUI : UI
     public float translateSpeed = 1;
     public float scaleSpeed = 1;
 
+    //Ratio of translateSpeed : scale speed should be (amount the box needs to move : 1), since the box scales in 1 second exactly
+    //(60 : 1 currently)
+    //(boxSize.x + marginSize.x) / 2 : 1
+    //or (boxScale * 100 + marginSize.x) / 2 : 1
+    //That is how much the box moves when 1 object is added
+
     private List<GameObject> itemBoxes; //Stores the items boxes in the UI
 
     //temp object for testing
@@ -78,6 +84,7 @@ public class PlayerInventoryUI : UI
         {
             //itemBoxes[i].transform.localPosition = new Vector3(currentItemX, 0, 0);
             itemBoxes[i].GetComponent<InventoryItem>().SetTargetPosition(new Vector3(currentItemX, 0, 0));
+            //Debug.Log("Set position" + i);
             currentItemX += boxSize.x + marginSize.x;
         }
     }
@@ -90,7 +97,7 @@ public class PlayerInventoryUI : UI
         newItem.transform.GetChild(0).GetComponent<Image>().sprite = item.GetComponent<SpriteRenderer>().sprite; //sets the sprite of the emtpy image to the sprite of the item we are adding
         newItem.transform.GetChild(0).GetComponent<Image>().color = item.GetComponent<SpriteRenderer>().color; //sets the sprite colour of the emtpy image to the colour of the item we are adding
 
-        newItem.transform.localScale = new Vector3(0.5f, 0.5f, 1); //sets the scale to 0
+        newItem.transform.localScale = new Vector3(0, 0, 1); //sets the scale to 0
         newItem.transform.GetComponent<InventoryItem>().SetTargetScale(boxScale, false); //sets the target scale of the box to match box size (for growing animation)
 
         itemBoxes.Add(newItem); //Add item to list

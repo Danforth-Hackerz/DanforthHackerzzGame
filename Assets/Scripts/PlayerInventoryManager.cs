@@ -7,7 +7,7 @@ public class PlayerInventoryManager : MonoBehaviour
     [SerializeField] PlayerInventoryUI playerInventoryUI; //reference to the inventory UI, so the player can send game objects that they collect to the inventory display
     [SerializeField] float bloomIntensity; //how much the closest object should glow
     [SerializeField] public float bloomTransitionSpeed; //how long the object glow animation should take (Intensity change per second)
-    [SerializeField] public float pickUpDistance = 5; //how close the player needs to be to objects to pick them up
+    [SerializeField] public float interactDistance = 5; //how close the player needs to be to objects to pick them up
     public static float closestObjectDistance;
     public static GameObject closestObject = null;
     GameObject prevObj = null;
@@ -28,7 +28,7 @@ public class PlayerInventoryManager : MonoBehaviour
         //Picks up the closest item if the user presses E
         if(Input.GetKeyDown(KeyCode.E))
         {
-            PickUpItem();
+            Interact();
         }
 
         //Drops the item if you hit the associated button
@@ -47,7 +47,7 @@ public class PlayerInventoryManager : MonoBehaviour
         {
             //Animates the bloom if the previous closest object if it changed
             //StartCoroutine(Animations.TransitionBloom(prevObj.GetComponent<CollectableItem>(), bloomIntensity, 1, bloomTransitionTime));
-            prevObj.GetComponent<CollectableItem>().SetTargetIntensity(1);
+            prevObj.GetComponent<Interactable>().SetTargetIntensity(1);
             //Debug.Log("Reset Glow");
 
         }
@@ -56,18 +56,18 @@ public class PlayerInventoryManager : MonoBehaviour
         {
             //Animates the bloom on the closest object if it changed
             //StartCoroutine(Animations.TransitionBloom(closestObject.GetComponent<CollectableItem>(), 1, bloomIntensity, bloomTransitionTime));
-            closestObject.GetComponent<CollectableItem>().SetTargetIntensity(bloomIntensity);
+            closestObject.GetComponent<Interactable>().SetTargetIntensity(bloomIntensity);
             //Debug.Log("Glow");
         }
 
         //Resets variables at the end of fixed update before onTrigger functions are called
         prevObj = closestObject;
-        closestObjectDistance = pickUpDistance;
+        closestObjectDistance = interactDistance;
         closestObject = null;
     }
 
     //Method called to pick up an item
-    void PickUpItem() 
+    private void Interact()
     {
         //Returns if there is no object to pick up or the users inventory is already full
         if (closestObject == null)
@@ -80,17 +80,22 @@ public class PlayerInventoryManager : MonoBehaviour
             return;
         }
 
+        closestObject.GetComponent<Interactable>().Interact();
+    }
+
+    public void PickUp(CollectableItem item)
+    {
         //Adds the item to the inventory list (of the actual gameObjects which become disabled)
-        items.Add(closestObject.GetComponent<CollectableItem>());
+        items.Add(item);
 
         //Adds the item to the UI
-        playerInventoryUI.AddItem(closestObject);
+        playerInventoryUI.AddItem(item.gameObject);
 
         //Disables the gameobject
         closestObject.SetActive(false);
     }
 
-    void RemoveItem(int index)
+    private void RemoveItem(int index)
     {
         //Returns if the player tries to drop an item they don't have
         if(index >= items.Count)

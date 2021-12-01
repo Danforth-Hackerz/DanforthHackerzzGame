@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseUI : UI 
 {
@@ -54,9 +55,12 @@ public class PauseUI : UI
         
     }
 
-    //temporary method, can be used when menu ui is created
+    //method to take user to the start menu when the button is clicked
     public void LoadMenu()
     {
+        SceneManager.LoadScene("Start");
+        Time.timeScale = 1f;
+        isPaused = false;
         Debug.Log("menu");
     }
 

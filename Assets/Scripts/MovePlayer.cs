@@ -5,6 +5,7 @@ using UnityEngine;
 public class MovePlayer : MonoBehaviour
 {
     [SerializeField] float speed;
+    [SerializeField] private CameraController cameraController;
     Rigidbody2D playerRB;
     Animator playerAnim;
 
@@ -71,7 +72,9 @@ public class MovePlayer : MonoBehaviour
 
             //Applies movement to rigid body (multiply by fixed delta time so that movement speed isn't affected if we change the physics frame rate)
             playerRB.MovePosition(playerRB.position + (moveDirection * speed * Time.fixedDeltaTime));
-
+            
+            //Update camera position
+            cameraController.OnPlayerPositionChanged(transform.position);
         }
     }
 

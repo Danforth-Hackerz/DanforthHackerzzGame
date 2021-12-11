@@ -26,15 +26,15 @@ public class PlayerInventoryManager : MonoBehaviour
     void Update()
     {
         //Picks up the closest item if the user presses E
-        if(Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             Interact();
         }
 
         //Drops the item if you hit the associated button
-        for(int i = 0; i < maxItems; i++)
+        for (int i = 0; i < maxItems; i++)
         {
-            if(Input.GetKeyDown((KeyCode)(49 + i)))
+            if (Input.GetKeyDown((KeyCode)(49 + i)))
             {
                 RemoveItem(i);
             }
@@ -98,7 +98,7 @@ public class PlayerInventoryManager : MonoBehaviour
     private void RemoveItem(int index)
     {
         //Returns if the player tries to drop an item they don't have
-        if(index >= items.Count)
+        if (index >= items.Count)
         {
             return;
         }

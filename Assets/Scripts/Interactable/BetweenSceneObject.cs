@@ -9,7 +9,7 @@ public class BetweenSceneObject : Interactable
 
     public override void Interact()
     {
-        if(SceneManager.sceneCount <= nextSceneIndex)
+        if (SceneManager.sceneCount <= nextSceneIndex)
         {
             Debug.Log("There is no scene at index " + nextSceneIndex);
             return;

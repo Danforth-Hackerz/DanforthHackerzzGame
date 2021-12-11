@@ -14,7 +14,7 @@ public class BackgroundController : MonoBehaviour
     //Called on scene load
     private void Start()
     {
-        //Sets the gmaeobject x angle to the x angle
+        //Sets the gameobject x angle to the x angle
         transform.rotation = Quaternion.Euler(new Vector3(xAngle, 0, 0));
     }
 

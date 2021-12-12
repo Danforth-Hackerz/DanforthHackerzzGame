@@ -20,6 +20,17 @@ public class PlayerInventoryManager : MonoBehaviour
     {
         //Initializes items
         items = new List<CollectableItem>();
+
+        //Loads from data if data is set
+        if (VariableHolder.PID != null)
+        {
+            LoadFromData(VariableHolder.PID);
+        }
+        //Otherwise set data to base values
+        else
+        {
+            VariableHolder.PID = new VariableHolder.PlayerInventoryData(this);
+        }
     }
 
     // Update is called once per frame
@@ -81,6 +92,7 @@ public class PlayerInventoryManager : MonoBehaviour
         }
 
         closestObject.GetComponent<Interactable>().Interact();
+        VariableHolder.PID = new VariableHolder.PlayerInventoryData(this);
     }
 
     public void PickUp(CollectableItem item)
@@ -111,46 +123,29 @@ public class PlayerInventoryManager : MonoBehaviour
         items.RemoveAt(index);
     }
 
-    /*
-    void OnTriggerEnter2D(Collider2D other)
+    //Getters for private instance variables
+    public List<CollectableItem> GetItems()
     {
-
-        //Checks if the object is collectable and closer than the current closest object
-        if (other.CompareTag("Collectable") && Vector3.Distance(transform.position, other.transform.position) < closestObjectDistance)
-        {
-            //Performs a raycast to make sure that you have direct line of sight with the object
-            //Stops you from collecting items through walls
-            Vector2 direction = ((Vector2)(other.transform.position - transform.position)).normalized;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, pickUpDistance);
- 
-            if (hit.collider.gameObject == other.gameObject)
-            {
-               closestObject = other.gameObject;
-               closestObjectDistance = ((Vector2)(other.transform.position - transform.position)).magnitude;
-            }
-        }
+        return items;
     }
 
-    void OnTriggerStay2D(Collider2D other)
+    public int GetMaxItems()
     {
-        //Checks if the object is collectable and closer than the current closest object
-        if (other.CompareTag("Collectable") && Vector3.Distance(transform.position, other.transform.position) < closestObjectDistance)
-        {
-            //Performs a raycast to make sure that you have direct line of sight with the object
-            //Stops you from collecting items through walls
-            Vector2 direction = ((Vector2)(other.transform.position - transform.position)).normalized;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, pickUpDistance, ~player);
-
-            Debug.DrawRay(transform.position, direction * pickUpDistance);
-
-            Debug.Log(hit.collider.gameObject.name);
-
-            if (hit.collider.gameObject == other.gameObject)
-            {
-                closestObject = other.gameObject;
-                closestObjectDistance = ((Vector2)(other.transform.position - transform.position)).magnitude;
-            }
-        }
+        return maxItems;
     }
-    */
+
+    public float GetBloomIntenisty()
+    {
+        return bloomIntensity;
+    }
+
+    //Method to load player inventory manager from static data
+    public void LoadFromData(VariableHolder.PlayerInventoryData PID)
+    {
+        bloomIntensity = PID.bloomIntensity;
+        bloomTransitionSpeed = PID.bloomTransitionSpeed;
+        maxItems = PID.maxItems;
+        items = PID.items;
+        interactDistance = PID.interactDistance;
+    }
 }

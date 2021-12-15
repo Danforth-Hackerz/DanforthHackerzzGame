@@ -903,6 +903,7 @@ GameObject:
   - component: {fileID: 564621605}
   - component: {fileID: 564621604}
   - component: {fileID: 564621607}
+  - component: {fileID: 564621608}
   - component: {fileID: 564621606}
   m_Layer: 0
   m_Name: Window
@@ -986,11 +987,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 564621603}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 284ebe3602adf4e409f04bad262fa045, type: 3}
+  m_Script: {fileID: 11500000, guid: 6034142107c9d2f4c8dee0134a7febb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   intensityMultiplier: 0
-  nextSceneIndex: 0
+  currrentArea: {fileID: 0}
+  nextArea: {fileID: 0}
 --- !u!58 &564621607
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1007,6 +1009,25 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 5
+--- !u!95 &564621608
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 564621603}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &773497215
 GameObject:
   m_ObjectHideFlags: 0

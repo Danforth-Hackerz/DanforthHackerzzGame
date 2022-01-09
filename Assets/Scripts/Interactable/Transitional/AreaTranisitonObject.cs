@@ -13,13 +13,13 @@ public class AreaTranisitonObject : TransitionalObject
     protected override void Transition()
     {
         //Fades to the next area
-        FadeWithAction(fadePanel, new System.Action(() =>
+        StartCoroutine(FadeWithAction(fadePanel, new System.Action(() =>
         {
             nextArea.SetActive(true);
 
             /* Move player somehow???*/
 
             currrentArea.SetActive(false);
-        }));
+        })));
     }
 }

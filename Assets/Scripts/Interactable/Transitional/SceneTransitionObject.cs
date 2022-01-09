@@ -22,9 +22,9 @@ public class SceneTransitionObject : TransitionalObject
         Debug.Log("Loading Scene " + SceneManager.GetSceneAt(nextSceneIndex).name + "...");
 
         //Fade with scene load
-        FadeWithAction(fadePanel, new System.Action(() =>
+        StartCoroutine(FadeWithAction(fadePanel, new System.Action(() =>
         {
             SceneManager.LoadScene(nextSceneIndex);
-        }));
+        })));
     }
 }

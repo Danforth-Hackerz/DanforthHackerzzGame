@@ -25,8 +25,8 @@ public abstract class Interactable : MonoBehaviour
 
         //Warning: This assumes that the collection distance of the player never changes, so if that is a feature added into the game make sure to change this
         //finds the player and gets the interactDistance
-        interactDistance = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventoryManager>().interactDistance * (1 / Mathf.Max(transform.lossyScale.x, transform.lossyScale.y));
-        bloomTransitionSpeed = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventoryManager>().bloomTransitionSpeed;
+        interactDistance = Reference.PIM.interactDistance * (1 / Mathf.Max(transform.lossyScale.x, transform.lossyScale.y));
+        bloomTransitionSpeed = Reference.PIM.bloomTransitionSpeed;
 
         trigger.radius = interactDistance;
 
@@ -80,15 +80,32 @@ public abstract class Interactable : MonoBehaviour
         if (other.CompareTag("Player") && Vector2.Distance(transform.position, other.transform.position) < PlayerInventoryManager.closestObjectDistance)
         {
             //raycast to make sure there is line of sight to the player (avoid detection through walls)
-            Vector2 direction = ((Vector2)(other.transform.position - transform.position)).normalized;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, interactDistance, ignoreCollectable);
+            //Head
+            Vector3 headPosition = other.transform.position + Vector3.up * 0.85f;
+            Vector2 directionHead = ((Vector2)(headPosition - transform.position)).normalized;
+            RaycastHit2D hitHead = Physics2D.Raycast(transform.position, directionHead, Reference.PIM.interactDistance, ignoreCollectable);
 
-            Debug.DrawRay(transform.position, direction * interactDistance);
+            //Debug.Log("Head: " + headPosition + " " + directionHead);
+            Debug.DrawRay(transform.position, directionHead * Reference.PIM.interactDistance);
+
+            //Feet
+            Vector3 feetPosition = other.transform.position + Vector3.down * 0.95f;
+            Vector2 directionFeet = ((Vector2)(feetPosition - transform.position)).normalized;
+            RaycastHit2D hitFeet = Physics2D.Raycast(transform.position, directionFeet, Reference.PIM.interactDistance, ignoreCollectable);
+
+            Debug.DrawRay(transform.position, directionFeet * Reference.PIM.interactDistance);
+
+            //Middle/Origin of player
+            Vector2 directionMiddle = ((Vector2)(other.transform.position - transform.position)).normalized;
+            RaycastHit2D hitMiddle = Physics2D.Raycast(transform.position, directionMiddle, Reference.PIM.interactDistance, ignoreCollectable);
+
+            //Debug.Log("Middle: " + other.transform.position + " " + directionMiddle);
+            Debug.DrawRay(transform.position, directionMiddle * Reference.PIM.interactDistance);
 
             //Debug.Log(hit.collider.gameObject.name);
 
             //If you hit the player
-            if (hit.transform.CompareTag("Player"))
+            if (hitHead.transform.CompareTag("Player") || hitFeet.transform.CompareTag("Player") || hitMiddle.transform.CompareTag("Player"))
             {
                 PlayerInventoryManager.closestObject = gameObject;
                 PlayerInventoryManager.closestObjectDistance = Vector2.Distance(transform.position, other.transform.position);
@@ -102,13 +119,29 @@ public abstract class Interactable : MonoBehaviour
         if (other.CompareTag("Player") && Vector2.Distance(transform.position, other.transform.position) < PlayerInventoryManager.closestObjectDistance)
         {
             //raycast to make sure there is line of sight to the player (avoid detection through walls)
-            Vector2 direction = ((Vector2)(other.transform.position - transform.position)).normalized;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, interactDistance, ignoreCollectable);
+            Vector3 headPosition = other.transform.position + Vector3.up * 0.85f;
+            Vector2 directionHead = ((Vector2)(headPosition - transform.position)).normalized;
+            RaycastHit2D hitHead = Physics2D.Raycast(transform.position, directionHead, Reference.PIM.interactDistance, ignoreCollectable);
 
-            Debug.DrawRay(transform.position, direction * interactDistance);
+            //Debug.Log("Head: " + headPosition + " " + directionHead);
+            Debug.DrawRay(transform.position, directionHead * Reference.PIM.interactDistance);
+
+            Vector3 feetPosition = other.transform.position + Vector3.down * 0.95f;
+            Vector2 directionFeet = ((Vector2)(feetPosition - transform.position)).normalized;
+            RaycastHit2D hitFeet = Physics2D.Raycast(transform.position, directionFeet, Reference.PIM.interactDistance, ignoreCollectable);
+
+            Debug.DrawRay(transform.position, directionFeet * Reference.PIM.interactDistance);
+
+            Vector2 directionMiddle = ((Vector2)(other.transform.position - transform.position)).normalized;
+            RaycastHit2D hitMiddle = Physics2D.Raycast(transform.position, directionMiddle, Reference.PIM.interactDistance, ignoreCollectable);
+
+            //Debug.Log("Middle: " + other.transform.position + " " + directionMiddle);
+            Debug.DrawRay(transform.position, directionMiddle * Reference.PIM.interactDistance);
+
+            //Debug.Log(hit.collider.gameObject.name);
 
             //If you hit the player
-            if (hit.transform.CompareTag("Player"))
+            if (hitHead.transform.CompareTag("Player") || hitFeet.transform.CompareTag("Player") || hitMiddle.transform.CompareTag("Player"))
             {
                 PlayerInventoryManager.closestObject = gameObject;
                 PlayerInventoryManager.closestObjectDistance = Vector2.Distance(transform.position, other.transform.position);

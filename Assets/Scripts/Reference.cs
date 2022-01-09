@@ -16,7 +16,7 @@ public class Reference : MonoBehaviour
     public static Room currentRoom;
 
     //Method called on scene load
-    private void Start()
+    private void Awake()
     {
         //Assigns static refrences to the in scene refrences
         PIM = _PIM;

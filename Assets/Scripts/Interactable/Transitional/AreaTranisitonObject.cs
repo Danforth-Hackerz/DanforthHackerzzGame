@@ -6,8 +6,8 @@ using UnityEngine;
 public class AreaTranisitonObject : TransitionalObject
 {
     //GameObject used to store the next and current areas
-    [SerializeField] private GameObject currrentArea;
-    [SerializeField] private GameObject nextArea;
+    [SerializeField] private Room currrentArea;
+    [SerializeField] private Room nextArea;
 
     //Called when the object is to transition between scenes.
     protected override void Transition()
@@ -15,11 +15,15 @@ public class AreaTranisitonObject : TransitionalObject
         //Fades to the next area
         StartCoroutine(FadeWithAction(fadePanel, new System.Action(() =>
         {
-            nextArea.SetActive(true);
+            Debug.Log("In the invoke");
+
+            nextArea.Show();
 
             /* Move player somehow???*/
 
-            currrentArea.SetActive(false);
+            Reference.currentRoom = nextArea;
+
+            currrentArea.Hide();
         })));
     }
 }

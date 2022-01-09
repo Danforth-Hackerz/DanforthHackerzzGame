@@ -83,11 +83,7 @@ public class PlayerInventoryManager : MonoBehaviour
         //Returns if there is no object to pick up or the users inventory is already full
         if (closestObject == null)
         {
-            return;
-        }
-        else if (items.Count == maxItems)
-        {
-            Debug.Log("Your inventory is full");
+            Debug.Log("Here");
             return;
         }
 
@@ -97,6 +93,12 @@ public class PlayerInventoryManager : MonoBehaviour
 
     public void PickUp(CollectableItem item)
     {
+        if (items.Count == maxItems)
+        {
+            Debug.Log("Your inventory is full");
+            return;
+        }
+
         //Adds the item to the inventory list (of the actual gameObjects which become disabled)
         items.Add(item);
 

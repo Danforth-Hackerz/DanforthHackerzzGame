@@ -25,6 +25,7 @@ public abstract class TransitionalObject : Interactable
     //Called when the user interacts with the object
     public override void Interact()
     {
+        Debug.Log("Interacted");
         //Plays the exit animation and transitions
         PlayExitAnimation();
         Transition();
@@ -33,6 +34,8 @@ public abstract class TransitionalObject : Interactable
     //Static method used for calling an action with a fade
     protected static IEnumerator FadeWithAction(GameObject fadePanel, System.Action action)
     {
+        Debug.Log("In the coroutine");
+
         //Fade out
 
         //Action called

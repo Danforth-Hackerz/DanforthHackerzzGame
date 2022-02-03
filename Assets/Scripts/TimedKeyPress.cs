@@ -9,8 +9,8 @@ public class TimedKeyPress
     private static float time = 1f;
     private static float timeBuffer = 0.125f;
 
-    [SerializeField] private KeyCode keyCode;
-    [SerializeField] private Vector3 triggerPosition;
+    [SerializeField] public KeyCode keyCode { get; private set; }
+    [SerializeField] public Vector3 triggerPosition { get; private set; }
 
     public IEnumerator Show(Text text, Slider slider, Action<bool> callback)
     {
@@ -33,6 +33,6 @@ public class TimedKeyPress
             yield return null;
         }
 
-        yield return null;
+        callback(false);
     }
 }

@@ -33,19 +33,20 @@ public class TimedKeyPress
 
         //Set the text to glow and wait for input
         float counter = 0;
+        bool successful = false;
 
+        //Changed so that the callback is always at the end
         while (counter <= timeBuffer)
         {
-            if (Input.GetKey(keyCode))
+            if (Input.GetKey(keyCode) && !successful)
             {
-                callback(true, obstacleType);
-                yield break;
+                successful = true;
             }
 
             counter += Time.deltaTime;
             yield return null;
         }
 
-        callback(false, obstacleType);
+        callback(successful, obstacleType);
     }
 }

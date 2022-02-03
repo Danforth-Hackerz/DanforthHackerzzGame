@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Class to store static refrences to obejcts in the scene
-public class Reference : MonoBehaviour
+public class Reference : Singleton<Reference>
 {
     //In scene refrences
-    [SerializeField] private PlayerInventoryManager _PIM;
-    [SerializeField] private GameObject _player;
-    [SerializeField] private Room startRoom;
+    public PlayerInventoryManager PIM;
+    public GameObject player;
+    public Room currentRoom;
 
     //Static refrences
-    public static PlayerInventoryManager PIM;
-    public static GameObject player;
-    public static Room currentRoom;
+    //public static PlayerInventoryManager PIM;
+    //public static GameObject player;
+    //public static Room currentRoom;
 
-    //Method called on scene load
-    private void Awake()
-    {
-        //Assigns static refrences to the in scene refrences
-        PIM = _PIM;
-        player = _player;
-        currentRoom = startRoom;
-    }
+    ////Method called on scene load
+    //new private void Awake()
+    //{
+    //    //Assigns static refrences to the in scene refrences
+    //    PIM = _PIM;
+    //    player = _player;
+    //    currentRoom = startRoom;
+    //}
 }

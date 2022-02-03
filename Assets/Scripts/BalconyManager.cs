@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BalconyManager : MonoBehaviour
+public class BalconyManager : Room
 {
     [SerializeField] private GameObject obstacleContainer;
-    [SerializeField] private GameObject player;
     [SerializeField] private TimedKeyPress[] events;
     [SerializeField] private GameObject text;
     [SerializeField] private GameObject slider;
@@ -16,6 +15,13 @@ public class BalconyManager : MonoBehaviour
     private int currentEvent = 0;
     private bool isRunning;
     private float distance;
+
+    public override void Show()
+    {
+        Debug.Log("Starting");
+        base.Show();
+        Restart();
+    }
 
     public void Start()
     {
@@ -35,7 +41,8 @@ public class BalconyManager : MonoBehaviour
     {
         if (isRunning)
         {
-            obstacleContainer.transform.position += speed * Time.deltaTime * Vector3.right; //Change to left if player if moving to the right
+            Debug.Log("going");
+            obstacleContainer.transform.position += speed * Time.deltaTime * Vector3.right; //Change to Vector3.left if player is moving to the right
             distance += speed * Time.deltaTime;
 
             if (distance >= events[currentEvent].triggerPosition) //Position check

@@ -9,13 +9,13 @@ public class Room : MonoBehaviour
     [SerializeField] private GameObject container;
 
     //Method to show the room
-    public void Show()
+    public virtual void Show()
     {
         container.SetActive(true);
     }
 
     //Method to hide the room
-    public void Hide()
+    public virtual void Hide()
     {
         container.SetActive(false);
     }

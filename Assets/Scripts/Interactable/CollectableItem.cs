@@ -8,6 +8,6 @@ public class CollectableItem : Interactable
 
     public override void Interact()
     {
-        Reference.PIM.PickUp(this);
+        Reference.Instance.PIM.PickUp(this);
     }
 }

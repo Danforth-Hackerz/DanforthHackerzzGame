@@ -43,6 +43,6 @@ public abstract class TransitionalObject : Interactable
 
         //Fade in
 
-        return null;
+        yield break;
     }
 }

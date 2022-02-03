@@ -8,6 +8,7 @@ public class AreaTranisitonObject : TransitionalObject
     //GameObject used to store the next and current areas
     [SerializeField] private Room currrentArea;
     [SerializeField] private Room nextArea;
+    [SerializeField] private Vector3 newPosition;
 
     //Called when the object is to transition between scenes.
     protected override void Transition()
@@ -18,10 +19,12 @@ public class AreaTranisitonObject : TransitionalObject
             Debug.Log("In the invoke");
 
             nextArea.Show();
+            
+            //This is temporary
+            //Maybe make a function to call in the move player class to properly move them
+            Reference.Instance.player.transform.position = newPosition;
 
-            /* Move player somehow???*/
-
-            Reference.currentRoom = nextArea;
+            Reference.Instance.currentRoom = nextArea;
 
             currrentArea.Hide();
         })));

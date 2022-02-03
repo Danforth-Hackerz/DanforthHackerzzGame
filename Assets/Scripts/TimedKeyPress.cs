@@ -21,7 +21,7 @@ public class TimedKeyPress
     public Vector3 triggerPosition;
     public ObstacleType obstacleType;
 
-    public IEnumerator Show(Text text, GameObject slider, Animator animator, Action<bool> callback)
+    public IEnumerator Show(Text text, GameObject slider, Animator animator, Action<bool, ObstacleType> callback)
     {
         //Animate the bar and text and wait the designated time
         slider.gameObject.SetActive(true);
@@ -36,7 +36,7 @@ public class TimedKeyPress
         {
             if (Input.GetKey(keyCode))
             {
-                callback(true);
+                callback(true, obstacleType);
                 yield break;
             }
 
@@ -44,6 +44,6 @@ public class TimedKeyPress
             yield return null;
         }
 
-        callback(false);
+        callback(false, obstacleType);
     }
 }

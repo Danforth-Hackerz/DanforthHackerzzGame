@@ -1,11 +1,9 @@
 fileFormatVersion: 2
-guid: b175e3ac96ff40c46a6a627422f4a68f
+guid: d77b8243e6f60eb4bba164673a361b46
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - container: {instanceID: 0}
-  - cursorTexture: {fileID: 2800000, guid: 82a035dad56a406459eadbb5e302b649, type: 3}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

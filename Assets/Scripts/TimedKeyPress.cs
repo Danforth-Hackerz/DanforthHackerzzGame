@@ -18,7 +18,7 @@ public class TimedKeyPress
     private static float timeBuffer = 0.125f;
 
     public KeyCode keyCode;
-    public Vector3 triggerPosition;
+    public float triggerPosition;
     public ObstacleType obstacleType;
 
     public IEnumerator Show(GameObject text, GameObject slider, Action<bool, ObstacleType> callback)

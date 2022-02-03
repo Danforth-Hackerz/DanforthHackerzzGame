@@ -13,6 +13,9 @@ public class MovePlayer : MonoBehaviour
     float vertical = 0;
     float horizontal = 0;
 
+    //bool to control if the movement is enabled
+    bool movementEnabled = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -78,5 +81,9 @@ public class MovePlayer : MonoBehaviour
         }
     }
 
+    public void EnableMovement(bool value) =>
+        movementEnabled = value;
 
+    public bool playerCanMove =>
+        movementEnabled;
 }

@@ -21,29 +21,31 @@ public class PauseUI : UI
             isPaused = !isPaused;
             if (isPaused)
             {
-                Show();
+                Pause();
             }
             else
             {
-                Hide();
+                Resume();
             }
         }
     }
 
     //Overriding the method to show ui
-    public override void Show()
+    public void Pause()
     {
         //Activates the container
         container.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
         //Time will stop when game is paused
+        CursorController.cursor.UnlockCursor();
+        Show();
     }
     
     
 
     //Overriding the method to hide ui
-    public override void Hide()
+    public void Resume()
     {
         //Deactivates the container
         container.SetActive(false);
@@ -51,8 +53,9 @@ public class PauseUI : UI
         //Time will continue when unpaused
 
         isPaused = false;
-        
-        
+        CursorController.cursor.LockCursor();
+        Hide();
+
     }
 
     //method to take user to the start menu when the button is clicked
@@ -62,6 +65,7 @@ public class PauseUI : UI
         Time.timeScale = 1f;
         isPaused = false;
         Debug.Log("menu");
+
     }
 
     //method quits the game *nothing happens in unity editor but should quit if the game is built and run*

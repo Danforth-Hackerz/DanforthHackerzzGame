@@ -21,12 +21,13 @@ public class TimedKeyPress
     public Vector3 triggerPosition;
     public ObstacleType obstacleType;
 
-    public IEnumerator Show(Text text, GameObject slider, Animator animator, Action<bool, ObstacleType> callback)
+    public IEnumerator Show(GameObject text, GameObject slider, Action<bool, ObstacleType> callback)
     {
         //Animate the bar and text and wait the designated time
         slider.gameObject.SetActive(true);
+        text.GetComponent<Text>().text = keyCode.ToString();
+        slider.GetComponent<Animator>();
 
-        text.text = keyCode.ToString();
         yield return new WaitForSeconds(time - timeBuffer);
 
         //Set the text to glow and wait for input

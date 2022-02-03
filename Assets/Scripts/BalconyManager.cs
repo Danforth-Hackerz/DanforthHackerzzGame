@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class BalconyManager : MonoBehaviour
 {
-    [SerializeField] private readonly GameObject obstacleContainer;
-    [SerializeField] private readonly GameObject player;
-    [SerializeField] private readonly TimedKeyPress[] events;
-    [SerializeField] private readonly GameObject text;
-    [SerializeField] private readonly GameObject slider;
+    [SerializeField] private GameObject obstacleContainer;
+    [SerializeField] private GameObject player;
+    [SerializeField] private TimedKeyPress[] events;
+    [SerializeField] private GameObject text;
+    [SerializeField] private GameObject slider;
 
-    Vector3 containerStartPos;
+    private Vector3 containerStartPos;
     private const float speed = 10;
     private int currentEvent = 0;
     private bool isRunning;

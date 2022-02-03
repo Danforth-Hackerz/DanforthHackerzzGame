@@ -11,13 +11,20 @@ public class BalconyManager : MonoBehaviour
     [SerializeField] private readonly GameObject text;
     [SerializeField] private readonly GameObject slider;
 
+    Vector3 containerStartPos;
     private const float speed = 10;
     private int currentEvent = 0;
     private bool isRunning;
     private float distance;
 
+    public void Start()
+    {
+        containerStartPos = obstacleContainer.transform.position;
+    }
+
     public void Restart()
     {
+        obstacleContainer.transform.position = containerStartPos;
         isRunning = true;
         currentEvent = 0;
         distance = 0;

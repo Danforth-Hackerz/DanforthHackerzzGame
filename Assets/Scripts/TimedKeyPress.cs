@@ -26,7 +26,8 @@ public class TimedKeyPress
         //Animate the bar and text and wait the designated time
         slider.gameObject.SetActive(true);
         text.GetComponent<Text>().text = keyCode.ToString();
-        slider.GetComponent<Animator>();
+        slider.GetComponent<Animator>().SetTrigger("Play");
+        text.GetComponent<Animator>().SetTrigger("Play");
 
         yield return new WaitForSeconds(time - timeBuffer);
 

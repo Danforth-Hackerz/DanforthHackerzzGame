@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 //Class used to control the UI at the start of the game
 public class StartUI : UI
 {
+    
     //Method called when the user clicks to start
     public void OnClickStart()
     {

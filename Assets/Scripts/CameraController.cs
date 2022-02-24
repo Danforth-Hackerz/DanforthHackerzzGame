@@ -26,6 +26,7 @@ public class CameraController : MonoBehaviour
     {
         //Assigns the camera component refrence
         cam = GetComponent<Camera>();
+        OnPlayerPositionChanged(GameObject.Find("Player").transform.position);
     }
 
     //Called when the player's position changes

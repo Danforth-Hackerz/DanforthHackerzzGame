@@ -9,6 +9,7 @@ public class BalconyManager : Room
     [SerializeField] private TimedKeyPress[] events;
     [SerializeField] private GameObject text;
     [SerializeField] private GameObject slider;
+    [SerializeField] private GameObject balconyOverlays;
 
     private Vector3 containerStartPos;
     private const float speed = 10;
@@ -20,6 +21,7 @@ public class BalconyManager : Room
     {
         Debug.Log("Starting");
         base.Show();
+        balconyOverlays.SetActive(true);
         Restart();
     }
 

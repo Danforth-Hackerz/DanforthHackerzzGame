@@ -16,6 +16,7 @@ public class BalconyManager : Room
     private int currentEvent = 0;
     private bool isRunning;
     private float distance;
+    private bool eventPlaying = false;
 
     public override void Show()
     {
@@ -34,6 +35,7 @@ public class BalconyManager : Room
     {
         obstacleContainer.transform.position = containerStartPos;
         isRunning = true;
+        eventPlaying = false;
         currentEvent = 0;
         distance = 0;
     }
@@ -43,24 +45,29 @@ public class BalconyManager : Room
     {
         if (isRunning)
         {
-            Debug.Log("going");
+            //Debug.Log("going");
             obstacleContainer.transform.position += speed * Time.deltaTime * Vector3.right; //Change to Vector3.left if player is moving to the right
             distance += speed * Time.deltaTime;
 
-            if (distance >= events[currentEvent].triggerPosition) //Position check
+            if (distance >= events[currentEvent].triggerPosition && !eventPlaying) //Position check
             {
                 StartCoroutine(events[currentEvent].Show(text, slider, OnEventFinish));
+                eventPlaying = true;
             }
         }
     }
 
     private void OnEventFinish(bool successful, TimedKeyPress.ObstacleType type)
     {
+        Debug.Log("Jumped: " + successful);
+
         if (successful)
         {
             //Do Stuff
+            
 
             currentEvent++;
+            eventPlaying = false;
         }
         else
         {

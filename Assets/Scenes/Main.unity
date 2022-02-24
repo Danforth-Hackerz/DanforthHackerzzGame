@@ -1050,7 +1050,7 @@ MonoBehaviour:
   intensityMultiplier: 1.2
   currrentArea: {fileID: 1425276066}
   nextArea: {fileID: 762102138}
-  newPosition: {x: 22.8, y: -35, z: 0}
+  newPosition: {x: 22.8, y: -32.5, z: 0}
 --- !u!58 &564621607
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -6907,7 +6907,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2026646373
 Transform:
   m_ObjectHideFlags: 0

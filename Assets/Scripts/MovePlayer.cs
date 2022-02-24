@@ -81,6 +81,12 @@ public class MovePlayer : MonoBehaviour
         }
     }
 
+    public void SetPosition(Vector3 position)
+    {
+        transform.position = position;
+        cameraController.OnPlayerPositionChanged(position);
+    }
+
     public void EnableMovement(bool value) =>
         movementEnabled = value;
 

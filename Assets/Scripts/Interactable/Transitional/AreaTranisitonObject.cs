@@ -19,10 +19,10 @@ public class AreaTranisitonObject : TransitionalObject
             Debug.Log("In the invoke");
 
             nextArea.Show();
-            
+
             //This is temporary
             //Maybe make a function to call in the move player class to properly move them
-            Reference.Instance.player.transform.position = newPosition;
+            Reference.Instance.player.GetComponent<MovePlayer>().SetPosition(newPosition);
 
             Reference.Instance.currentRoom = nextArea;
 

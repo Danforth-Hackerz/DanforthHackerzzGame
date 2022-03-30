@@ -18,6 +18,7 @@ public class BalconyManager : Room
     private float distance;
     private bool eventPlaying = false;
 
+
     public override void Show()
     {
         Debug.Log("Starting");
@@ -38,6 +39,8 @@ public class BalconyManager : Room
         eventPlaying = false;
         currentEvent = 0;
         distance = 0;
+        slider.SetActive(false);
+        text.SetActive(false);
     }
 
     // Update is called once per frame

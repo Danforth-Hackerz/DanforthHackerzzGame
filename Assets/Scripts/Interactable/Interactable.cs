@@ -74,7 +74,7 @@ public abstract class Interactable : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    private void CheckForClosestObject(Collider2D other)
     {
         //checks if the player entered the trigger and if the distance is less than the current closest object
         if (other.CompareTag("Player") && Vector2.Distance(transform.position, other.transform.position) < PlayerInventoryManager.closestObjectDistance)
@@ -102,52 +102,31 @@ public abstract class Interactable : MonoBehaviour
             //Debug.Log("Middle: " + other.transform.position + " " + directionMiddle);
             ///Debug.DrawRay(transform.position, directionMiddle * Reference.Instance.PIM.interactDistance);
             Debug.DrawRay(transform.position, (Vector3)hitMiddle.point - transform.position);
+            //Debug.Log(hitMiddle.transform.name);
 
             //Debug.Log(hit.collider.gameObject.name);
-
             //If you hit the player
-            if (hitHead.transform.CompareTag("Player") || hitFeet.transform.CompareTag("Player") || hitMiddle.transform.CompareTag("Player"))
+            
+
+            
+            if ((hitHead.transform is Transform && hitHead.transform.CompareTag("Player")) || (hitFeet.transform is Transform && hitFeet.transform.CompareTag("Player")) || (hitMiddle.transform is Transform && hitMiddle.transform.CompareTag("Player")))
             {
                 PlayerInventoryManager.closestObject = gameObject;
                 PlayerInventoryManager.closestObjectDistance = Vector2.Distance(transform.position, other.transform.position);
             }
+
+
         }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        CheckForClosestObject(other);
     }
 
     void OnTriggerStay2D(Collider2D other)
     {
-        //checks if the player entered the trigger and if the distance is less than the current closest object
-        if (other.CompareTag("Player") && Vector2.Distance(transform.position, other.transform.position) < PlayerInventoryManager.closestObjectDistance)
-        {
-            //raycast to make sure there is line of sight to the player (avoid detection through walls)
-            Vector3 headPosition = other.transform.position + Vector3.up * 0.85f;
-            Vector2 directionHead = ((Vector2)(headPosition - transform.position)).normalized;
-            RaycastHit2D hitHead = Physics2D.Raycast(transform.position, directionHead, Reference.Instance.PIM.interactDistance, ignoreCollectable);
-
-            //Debug.Log("Head: " + headPosition + " " + directionHead);
-            Debug.DrawRay(transform.position, directionHead * Reference.Instance.PIM.interactDistance);
-
-            Vector3 feetPosition = other.transform.position + Vector3.down * 0.95f;
-            Vector2 directionFeet = ((Vector2)(feetPosition - transform.position)).normalized;
-            RaycastHit2D hitFeet = Physics2D.Raycast(transform.position, directionFeet, Reference.Instance.PIM.interactDistance, ignoreCollectable);
-
-            Debug.DrawRay(transform.position, directionFeet * Reference.Instance.PIM.interactDistance);
-
-            Vector2 directionMiddle = ((Vector2)(other.transform.position - transform.position)).normalized;
-            RaycastHit2D hitMiddle = Physics2D.Raycast(transform.position, directionMiddle, Reference.Instance.PIM.interactDistance, ignoreCollectable);
-
-            //Debug.Log("Middle: " + other.transform.position + " " + directionMiddle);
-            Debug.DrawRay(transform.position, directionMiddle * Reference.Instance.PIM.interactDistance);
-
-            //Debug.Log(hit.collider.gameObject.name);
-
-            //If you hit the player
-            if (hitHead.transform.CompareTag("Player") || hitFeet.transform.CompareTag("Player") || hitMiddle.transform.CompareTag("Player"))
-            {
-                PlayerInventoryManager.closestObject = gameObject;
-                PlayerInventoryManager.closestObjectDistance = Vector2.Distance(transform.position, other.transform.position);
-            }
-        }
+        CheckForClosestObject(other);
     }
 
     //Called when the uesr tries to interact with the object

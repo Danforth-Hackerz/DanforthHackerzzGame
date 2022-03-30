@@ -14,8 +14,12 @@ public class TimedKeyPress
         Drop
     }
 
-    private static float time = 2f;
-    private static float timeBuffer = 0.25f;
+    //private const float time = 2f;
+    //private const float timeBuffer = 0.25f;
+    private const float textFadeInTime = 0.5f;
+    private const float pressKeyTime = 0.5f;
+    private const string textMessagePrefix = "Press ";
+    private const string textMessageSuffix = "!";
 
     public KeyCode keyCode;
     public float triggerPosition;
@@ -24,24 +28,21 @@ public class TimedKeyPress
     public IEnumerator Show(GameObject text, GameObject slider, Action<bool, ObstacleType> callback)
     {
         //Animate the bar and text and wait the designated time
-        slider.gameObject.SetActive(true);
-        text.GetComponent<Text>().text = keyCode.ToString();
 
-        Animator sliderAnimator = slider.GetComponent<Animator>();
+        text.GetComponent<Text>().text = textMessagePrefix + keyCode.ToString() + textMessageSuffix;
+        text.SetActive(true);
         Animator textAnimator = text.GetComponent<Animator>();
-
-        sliderAnimator.speed = 1 / time;
-
-
-
-        sliderAnimator.SetTrigger("Reset");
-        textAnimator.SetTrigger("Reset");
-        sliderAnimator.SetTrigger("Play");
+        textAnimator.speed = 1 / textFadeInTime;
         textAnimator.SetTrigger("Play");
 
+        yield return new WaitForSeconds(textFadeInTime);
 
-        yield return new WaitForSeconds(time - (timeBuffer / 2));
+        //Shows the slider and starts the time
 
+        Animator sliderAnimator = slider.GetComponent<Animator>();
+        sliderAnimator.speed = 1 / pressKeyTime;
+        slider.SetActive(true);
+        sliderAnimator.SetTrigger("Play");
 
         Debug.Log("Buffer Start");
         
@@ -52,7 +53,7 @@ public class TimedKeyPress
         //Debug.Log(counter);
 
         //Changed so that the callback is always at the end
-        while (counter <= timeBuffer)
+        while (counter <= pressKeyTime)
         {
             if (Input.GetKey(keyCode) && !successful)
             {
@@ -67,6 +68,10 @@ public class TimedKeyPress
 
         //Debug.Log("Buffer End");
 
+        text.SetActive(false);
+        slider.SetActive(false);
+        sliderAnimator.SetTrigger("Reset");
+        textAnimator.SetTrigger("Reset");
         callback(successful, obstacleType);
     }
 }

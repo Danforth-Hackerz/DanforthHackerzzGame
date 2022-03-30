@@ -31,7 +31,7 @@ public abstract class Interactable : MonoBehaviour
         trigger.radius = interactDistance;
 
         _renderer = GetComponent<SpriteRenderer>();
-        ignoreCollectable = ~LayerMask.GetMask("Collectable"); //the tilde inverts the layermask from only the collectable layer to all other layers
+        ignoreCollectable = ~LayerMask.GetMask(new string[] { "Collectable", "Top Walls" }); //the tilde inverts the layermask from only the collectable layer to all other layers
 
         //Calls start for inherited objects
         IStart();
@@ -86,21 +86,22 @@ public abstract class Interactable : MonoBehaviour
             RaycastHit2D hitHead = Physics2D.Raycast(transform.position, directionHead, Reference.Instance.PIM.interactDistance, ignoreCollectable);
 
             //Debug.Log("Head: " + headPosition + " " + directionHead);
-            Debug.DrawRay(transform.position, directionHead * Reference.Instance.PIM.interactDistance);
+            Debug.DrawRay(transform.position, (Vector3)hitHead.point - transform.position);
 
             //Feet
             Vector3 feetPosition = other.transform.position + Vector3.down * 0.95f;
             Vector2 directionFeet = ((Vector2)(feetPosition - transform.position)).normalized;
             RaycastHit2D hitFeet = Physics2D.Raycast(transform.position, directionFeet, Reference.Instance.PIM.interactDistance, ignoreCollectable);
 
-            Debug.DrawRay(transform.position, directionFeet * Reference.Instance.PIM.interactDistance);
+            Debug.DrawRay(transform.position, (Vector3)hitFeet.point - transform.position);
 
             //Middle/Origin of player
             Vector2 directionMiddle = ((Vector2)(other.transform.position - transform.position)).normalized;
             RaycastHit2D hitMiddle = Physics2D.Raycast(transform.position, directionMiddle, Reference.Instance.PIM.interactDistance, ignoreCollectable);
 
             //Debug.Log("Middle: " + other.transform.position + " " + directionMiddle);
-            Debug.DrawRay(transform.position, directionMiddle * Reference.Instance.PIM.interactDistance);
+            ///Debug.DrawRay(transform.position, directionMiddle * Reference.Instance.PIM.interactDistance);
+            Debug.DrawRay(transform.position, (Vector3)hitMiddle.point - transform.position);
 
             //Debug.Log(hit.collider.gameObject.name);
 

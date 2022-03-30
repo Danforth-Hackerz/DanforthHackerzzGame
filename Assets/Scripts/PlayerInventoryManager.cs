@@ -83,7 +83,7 @@ public class PlayerInventoryManager : MonoBehaviour
         //Returns if there is no object to pick up or the users inventory is already full
         if (closestObject == null)
         {
-            Debug.Log("Here");
+            Debug.LogWarning("No Objects Found");
             return;
         }
 

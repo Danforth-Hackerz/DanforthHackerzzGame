@@ -2207,7 +2207,7 @@ GameObject:
   - component: {fileID: 762102139}
   - component: {fileID: 762102138}
   m_Layer: 0
-  m_Name: Test room (1)
+  m_Name: Balcony
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3905,7 +3905,7 @@ GameObject:
   - component: {fileID: 1425276065}
   - component: {fileID: 1425276066}
   m_Layer: 0
-  m_Name: Test room
+  m_Name: Master Bedroom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
